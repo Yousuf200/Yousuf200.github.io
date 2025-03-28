@@ -1,48 +1,59 @@
-title: "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ | My Spiritual Journey"
-description: "Exploring life, faith, and purpose through spirituality and self-discovery."
+title: "The Path"
+description: " A Journey of Life, Purpose, Discovery..."
 author: "Yousuf"
 baseurl: ""  # Leave blank for GitHub Pages
 url: "https://yousuf200.github.io"  # Your GitHub Pages URL
 
-# Theme (Replace with your chosen theme)
-remote_theme: jekyll/minima  # Change to your preferred theme
+# Theme
+remote_theme: mmistakes/minimal-mistakes  # Using Minimal Mistakes
+minimal_mistakes_skin: dark  # Dark theme
 
 # Navigation Menu
 nav:
-  - name: Home
+  - title: Home
     url: /
-  - name: Blog
-    url: /blog
-  - name: About
-    url: /about
-  - name: Contact
-    url: /contact
+  - title: Blog
+    url: /blog/
+  - title: About
+    url: /about/
+  - title: Contact
+    url: /contact/
 
-# Markdown Settings
+# Markdown & Syntax Highlighting
 markdown: kramdown
-highlighter: rouge  # For syntax highlighting
+highlighter: rouge
 
-# Plugins (optional but useful)
+# Plugins
 plugins:
-  - jekyll-feed  # RSS feed support
-  - jekyll-seo-tag  # SEO improvements
-  - jekyll-sitemap  # Generates a sitemap.xml
-  - jekyll-paginate  # Enables pagination
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-paginate
 
-# Blog Settings
-paginate: 5  # Number of posts per page
+# Pagination
+paginate: 5
 paginate_path: "/page:num/"
 
-# Social Links (Optional)
+# Sidebar Settings
+sidebar:
+  nav: "navigation"
+  subscribe: "/feed.xml"
+
+# Social Links
 social:
-  twitter: yourusername
   github: Yousuf200
   linkedin: yourprofile
+  instagram: test
+
+# Logo (Add your logo image in /assets/images/)
+logo: "/assets/images/logo.png"
+
+
 
 # Footer Message
 email: snuyousuf@gmail.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-footer_text: "© 2025 Yousuf | All Rights Reserved "
+quote: >-
+  "العلم حياة القلوب ومصباح الأبصار."  
+  📖 نهج البلاغة، الحكمة 147  
+  ("Knowledge is the life of hearts and the light of the eyes.")
+footer_text: "© 2025 Yousuf | All Rights Reserved"
