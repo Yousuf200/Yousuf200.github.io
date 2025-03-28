@@ -1,38 +1,40 @@
-title: "The Path"
-description: " A Journey of Life, Purpose, Discovery..."
+title: "the Path"
+description: "Life, Purpose, Discovery."
 author: "Yousuf"
 baseurl: ""  # Leave blank for GitHub Pages
 url: "https://yousuf200.github.io"  # Your GitHub Pages URL
 
-# Theme
-remote_theme: mmistakes/minimal-mistakes  # Using Minimal Mistakes
-minimal_mistakes_skin: dark  # Dark theme
+# Theme (Ensure the theme supports dark mode)
+remote_theme: jekyll/minima  # Change if needed
+minima:
+  skin: dark  # Enables dark mode for Minima
 
 # Navigation Menu
 nav:
-  - title: Home
+  - name: Home
     url: /
-  - title: Blog
+  - name: Blog
     url: /blog/
-  - title: About
+  - name: About
     url: /about/
-  - title: Contact
+  - name: Contact
     url: /contact/
 
-# Markdown & Syntax Highlighting
+# Markdown Settings
 markdown: kramdown
-highlighter: rouge
+highlighter: rouge  # For syntax highlighting
 
-# Plugins
+# Plugins (Ensuring they work properly)
 plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-sitemap
-  - jekyll-paginate
+  - jekyll-feed  # RSS feed support
+  - jekyll-seo-tag  # SEO improvements
+  - jekyll-sitemap  # Generates a sitemap.xml
+  - jekyll-paginate  # Enables pagination
 
-# Pagination
-paginate: 5
+# Blog Settings
+paginate: 5  # Number of posts per page
 paginate_path: "/page:num/"
+
 
 # Sidebar Settings
 sidebar:
