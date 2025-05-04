@@ -29,10 +29,8 @@ Click on the **fork** button at the top of this repository to create your own co
 Clone your forked repository to your local machine using Git:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Yousuf200.github.io.git
+git clone https://github.com/Yousuf200/Yousuf200.github.io.git
 ```
-
-Replace `YOUR_USERNAME` with your GitHub username.
 
 ### 3. **Install Dependencies**
 
