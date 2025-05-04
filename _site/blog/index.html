@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Blog | Block Journey</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body class="page-body">
+
+  <div class="page-wrapper">
+    <header class="topbar">
+  <div class="logo">
+    <a href="/">
+      <img src="/assets/images/logo.png" alt="Logo">
+    </a>
+  </div>
+
+  <nav class="navigation">
+    <a href="/">
+      <img src="/assets/images/home-icon.png" alt="Home">Home
+    </a>
+    <a href="/blog/">
+      <img src="/assets/images/blog-icon.png" alt="Blog">Blog
+    </a>
+    <a href="/contact/">
+      <img src="/assets/images/contact-icon.png" alt="Contact">Contact
+    </a>
+    <a href="/supersword/">
+      <img src="/assets/images/sword-icon.png" alt="SuperSword">SuperSword
+    </a>
+    <a href="/about/">
+      <img src="/assets/images/about-icon.png" alt="About">About
+    </a>
+  </nav>
+
+  <button id="theme-toggle" aria-label="Toggle Theme"
+    style="margin-left:auto; background:none; border:none; cursor:pointer; font-size: 20px;">
+    🌙
+  </button>
+</header>
+
+
+    <main>
+      <h1>🧱 Minecraft Blog</h1>
+<p>Welcome to the Minecraft adventures blog! Read about crafting, building, redstone tricks, and more.</p>
+
+<h2>Recent Posts</h2>
+
+<ul>
+  
+    <li>
+      <a href="/2025/05/03/first-post.html">Building a Redstone Door</a>
+      <p><p>Today I built a secret redstone piston door in survival mode! Here’s how you can do it too.</p>
+</p>
+    </li>
+  
+</ul>
+
+    </main>
+
+    <footer>
+  <p>&copy; 2025 Syed Nazeeruddin Yousuf. All rights reserved.</p>
+</footer>
+
+
+  </div>
+
+  <script>
+    const toggleButton = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    if (localStorage.getItem('theme') === 'light') {
+      body.classList.add('light-theme');
+      toggleButton.textContent = '🌑';
+    }
+
+    toggleButton.addEventListener('click', () => {
+      body.classList.toggle('light-theme');
+
+      if (body.classList.contains('light-theme')) {
+        localStorage.setItem('theme', 'light');
+        toggleButton.textContent = '🌑';
+      } else {
+        localStorage.setItem('theme', 'dark');
+        toggleButton.textContent = '🌙';
+      }
+    });
+  </script>
+
+</body>
+</html>

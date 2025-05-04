@@ -1,0 +1,30 @@
+<header class="topbar">
+  <div class="logo">
+    <a href="{{ '/' | relative_url }}">
+      <img src="/assets/images/logo.png" alt="Logo">
+    </a>
+  </div>
+
+  <nav class="navigation">
+    <a href="{{ '/' | relative_url }}">
+      <img src="/assets/images/home-icon.png" alt="Home">Home
+    </a>
+    <a href="{{ '/blog/' | relative_url }}">
+      <img src="/assets/images/blog-icon.png" alt="Blog">Blog
+    </a>
+    <a href="{{ '/contact/' | relative_url }}">
+      <img src="/assets/images/contact-icon.png" alt="Contact">Contact
+    </a>
+    <a href="{{ '/supersword/' | relative_url }}">
+      <img src="/assets/images/sword-icon.png" alt="SuperSword">SuperSword
+    </a>
+    <a href="{{ '/about/' | relative_url }}">
+      <img src="/assets/images/about-icon.png" alt="About">About
+    </a>
+  </nav>
+
+  <button id="theme-toggle" aria-label="Toggle Theme"
+    style="margin-left:auto; background:none; border:none; cursor:pointer; font-size: 20px;">
+    🌙
+  </button>
+</header>

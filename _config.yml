@@ -1,0 +1,17 @@
+title: 'Block Journey'
+author: 'Syed Nazeeruddin Yousuf'
+description: 'Exploring life, thought, poetry, and intellect — a reflective journey through culture, creativity, and deep conversation.'
+
+email: 'snuyousuf@mail.com'
+twitter_username: 'twitteruser'
+github_username: 'githubuser'
+linkedin_username: 'linkedinuser'
+
+theme: minima
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+include:
+  - assets
