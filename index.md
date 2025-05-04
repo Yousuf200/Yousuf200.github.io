@@ -4,7 +4,7 @@ title: "Welcome to My Site"
 subtitle: "A space for projects, insights, and ideas"
 ---
 
-## 👋 Hello, I'm Syed
+## 👋 Hello, I'm Naqi
 
 Welcome to my personal website! This is where I share my work, thoughts, and creations.
 
