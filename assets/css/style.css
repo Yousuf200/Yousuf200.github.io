@@ -131,17 +131,27 @@ main {
   margin: auto;
 }
 
-/* Footer */
+/* Footer styles */
 footer {
   text-align: center;
   padding: 20px;
   font-size: 12px;
-  color: #000000;
+  color: #ffffff; /* Light color text for dark background */
+  background-color: #333; /* Dark background for footer */
 }
 
+/* Light Theme Footer */
 body.light-theme footer {
-  color: #333;
+  color: #333; /* Dark text for light footer */
+  background-color: #f9f9f9; /* Light background for footer in light mode */
 }
+
+/* Dark Theme Footer */
+body.dark-theme footer {
+  color: #e0e0e0; /* Light text color for dark theme */
+  background-color: #121212; /* Dark footer background for dark theme */
+}
+
 
 /* Responsive navbar */
 @media (max-width: 768px) {
