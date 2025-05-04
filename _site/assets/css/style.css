@@ -12,7 +12,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   font-family: 'Press Start 2P', cursive, sans-serif;
-  color: #e0e0e0;
+  color: #0a0a0a;
   line-height: 1.6;
   transition: background-color 0.5s, color 0.5s;
   position: relative;
