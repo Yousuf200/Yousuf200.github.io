@@ -1,6 +1,6 @@
 ---
 layout: home
-title: "Welcome to My Site"
+title: "Welcome to My Block😉"
 subtitle: "A space for projects, insights, and ideas"
 ---
 
