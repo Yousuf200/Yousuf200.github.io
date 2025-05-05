@@ -122,7 +122,7 @@ ${content}`;
     fetch('https://api.github.com/repos/Yousuf200/Yousuf200.github.io/contents/_posts/' + filename, {
       method: 'PUT',
       headers: {
-        'Authorization': 'Bearer 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',
+        'Authorization': 'Bearer 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',
       },
       body: JSON.stringify({
         message: 'Create new post: ' + title,
