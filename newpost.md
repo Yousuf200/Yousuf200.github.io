@@ -1,27 +1,25 @@
 ---
 layout: default
 title: "Create a New Post"
+permalink: /newposts/
 ---
 
 <style>
-  /* Style for the new post form container */
   .new-post-form {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color:rgb(16, 1, 1);
+    background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
-  /* Style for the form header */
   .new-post-form h2 {
     text-align: center;
     font-size: 2rem;
     margin-bottom: 20px;
   }
 
-  /* Style for form fields (title and content) */
   .form-group {
     margin-bottom: 15px;
   }
@@ -41,19 +39,22 @@ title: "Create a New Post"
     border-radius: 4px;
   }
 
+  .form-group textarea {
+    resize: vertical;
+  }
+
   .form-group input:focus,
   .form-group textarea:focus {
     border-color: #007BFF;
     outline: none;
   }
 
-  /* Style for the submit button */
   .submit-btn {
     display: block;
     width: 100%;
     padding: 12px;
     font-size: 1.1rem;
-    background-color:rgb(11, 34, 59);
+    background-color: #007BFF;
     color: white;
     border: none;
     border-radius: 4px;
@@ -62,19 +63,7 @@ title: "Create a New Post"
   }
 
   .submit-btn:hover {
-    background-color:rgb(10, 34, 61);
-  }
-
-  /* Add responsiveness for smaller screens */
-  @media (max-width: 600px) {
-    .new-post-form {
-      padding: 15px;
-    }
-
-    .submit-btn {
-      font-size: 1rem;
-      padding: 10px;
-    }
+    background-color: #0056b3;
   }
 </style>
 
@@ -91,54 +80,68 @@ title: "Create a New Post"
       <textarea id="content" name="content" placeholder="Write your post content here" rows="10" required></textarea>
     </div>
 
-    <button type="submit" class="submit-btn">Post</button>
+    <button type="submit" class="submit-btn">Submit Post</button>
   </form>
 </div>
 
 <script>
-  document.getElementById('newPostForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+document.getElementById('newPostForm').addEventListener('submit', function(event) {
+  event.preventDefault();
 
-    const title = document.getElementById('title').value;
-    const content = document.getElementById('content').value;
-    
-    const formattedTitle = title.toLowerCase().replace(/\s+/g, '-'); // Convert spaces to dashes and to lowercase
-    const today = new Date();
-    const dateString = today.toISOString().split('T')[0]; // Get YYYY-MM-DD format
-    const filename = `${dateString}-${formattedTitle}.md`;
+  const token = localStorage.getItem('githubToken'); // Securely get token from browser storage
 
-    const postContent = `---
+  if (!token) {
+    alert("No GitHub token found. Please run this in your browser console first:\n\nlocalStorage.setItem('githubToken', 'YOUR_TOKEN_HERE')");
+    return;
+  }
+
+  const title = document.getElementById('title').value.trim();
+  const content = document.getElementById('content').value.trim();
+
+  if (!title || !content) {
+    alert("Both title and content are required.");
+    return;
+  }
+
+  const date = new Date();
+  const dateStr = date.toISOString().split("T")[0]; // YYYY-MM-DD
+  const postname = title.toLowerCase().replace(/\s+/g, '').replace(/[^\w\-]+/g, '');
+  const filename = `${dateStr}-${postname}.md`;
+
+  const postContent = `---
 layout: post
 title: "${title}"
-date: ${today.toISOString()}
+date: ${date.toISOString()}
 ---
-
 ${content}`;
 
-    const blob = new Blob([postContent], { type: 'text/markdown' });
-    const formData = new FormData();
-    formData.append('file', blob, filename);
+  const payload = {
+    message: `Create new post: ${title}`,
+    content: btoa(postContent),
+    branch: "main"
+  };
 
-    fetch('https://api.github.com/repos/Yousuf200/Yousuf200.github.io/contents/_posts/' + filename, {
-      method: 'PUT',
-      headers: {
-        'Authorization': 'Bearer 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',
-      },
-      body: JSON.stringify({
-        message: 'Create new post: ' + title,
-        content: btoa(postContent), // Base64 encode the content
-      }),
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.content) {
-        alert('Post submitted successfully!');
-      } else {
-        alert('Error: ' + data.message);
-      }
-    })
-    .catch(error => {
-      alert('Error: ' + error.message);
-    });
+  fetch(`https://api.github.com/repos/Yousuf200/Yousuf200.github.io/contents/_posts/${filename}`, {
+    method: "PUT",
+    headers: {
+      "Authorization": "token " + token,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.content) {
+      alert("✅ Post created successfully!");
+      window.location.href = "/";
+    } else {
+      console.error(data);
+      alert("❌ Error creating post:\n" + (data.message || "Unknown error"));
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert("❌ Request failed: " + err.message);
   });
+});
 </script>
