@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Welcome to My Block😉 | Block Journey</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
 </head>
 <body class="page-body">
@@ -81,31 +81,35 @@
     document.addEventListener('DOMContentLoaded', () => {
       const body = document.body;
       const toggle = document.getElementById('theme-toggle');
-  
-      // Load theme
-      if (localStorage.getItem('theme') === 'light') {
+
+      // Set initial theme
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
         body.classList.add('light-theme');
-        toggle.checked = true;
+        body.classList.remove('dark-theme');
+        if (toggle) toggle.checked = true;
+      } else {
+        body.classList.add('dark-theme');
+        body.classList.remove('light-theme');
+        if (toggle) toggle.checked = false;
       }
-  
-      toggle.addEventListener('change', () => {
-        body.classList.add('theme-transition'); // Optional class if you want extra transitions
-  
-        if (toggle.checked) {
-          body.classList.add('light-theme');
-          localStorage.setItem('theme', 'light');
-        } else {
-          body.classList.remove('light-theme');
-          localStorage.setItem('theme', 'dark');
-        }
-  
-        // Remove transition class after animation completes
-        setTimeout(() => {
-          body.classList.remove('theme-transition');
-        }, 500);
-      });
-  
-      // Mobile nav toggle
+
+      // Handle theme toggle
+      if (toggle) {
+        toggle.addEventListener('change', () => {
+          if (toggle.checked) {
+            body.classList.add('light-theme');
+            body.classList.remove('dark-theme');
+            localStorage.setItem('theme', 'light');
+          } else {
+            body.classList.add('dark-theme');
+            body.classList.remove('light-theme');
+            localStorage.setItem('theme', 'dark');
+          }
+        });
+      }
+
+      // Handle mobile navigation toggle
       const navToggle = document.getElementById('navToggle');
       const navbar = document.getElementById('navbar');
       if (navToggle && navbar) {
@@ -113,12 +117,10 @@
           navbar.classList.toggle('show');
         });
       }
-  
+
       // Page load animation
       body.classList.add('loaded');
     });
   </script>
-  
-  
 </body>
 </html>
