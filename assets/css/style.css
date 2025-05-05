@@ -468,3 +468,11 @@ body:not(.light-theme) .navigation a {
   color: #f0f0f0;
   background-color: rgba(0, 0, 0, 0.6); /* semi-transparent for readability */
 }
+
+body.light-theme::before {
+  background-image: url('/assets/images/pagebg.png');
+}
+
+body.dark-theme::before {
+  background-image: url('/assets/images/darkmode-bg.png');
+}
