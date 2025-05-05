@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Building a Redstone Door | Block Journey</title>
   <link rel="stylesheet" href="/assets/css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
 </head>
 <body class="page-body">
@@ -16,7 +17,11 @@
     </a>
   </div>
 
-  <nav class="navigation">
+  <!-- Hamburger Icon for Mobile -->
+  <button class="nav-toggle" id="navToggle">&#9776;</button>
+
+  <!-- Navigation Menu -->
+  <nav class="navigation" id="navbar">
     <a href="/">
       <img src="/assets/images/home-icon.png" alt="Home">Home
     </a>
@@ -34,10 +39,14 @@
     </a>
   </nav>
 
-  <button id="theme-toggle" aria-label="Toggle Theme"
-    style="margin-left:auto; background:none; border:none; cursor:pointer; font-size: 20px;">
-    🌙
-  </button>
+  <!-- Theme Toggle Switch -->
+  <label class="theme-switch" aria-label="Toggle Theme">
+    <input type="checkbox" id="theme-toggle">
+    <span class="slider">
+      <span class="icon sun">🌞</span>
+      <span class="icon moon">🌙</span>
+    </span>
+  </label>
 </header>
 
 
@@ -60,33 +69,54 @@
     </main>
 
     <footer>
-  <p>&copy; 2025 Syed Nazeeruddin Yousuf. All rights reserved.</p>
+  <p>&copy; 2025 Syed Naqiuddin Ammar. All rights reserved.</p>
 </footer>
 
 
   </div>
 
   <script>
-    const toggleButton = document.getElementById('theme-toggle');
-    const body = document.body;
-
-    if (localStorage.getItem('theme') === 'light') {
-      body.classList.add('light-theme');
-      toggleButton.textContent = '🌑';
-    }
-
-    toggleButton.addEventListener('click', () => {
-      body.classList.toggle('light-theme');
-
-      if (body.classList.contains('light-theme')) {
-        localStorage.setItem('theme', 'light');
-        toggleButton.textContent = '🌑';
-      } else {
-        localStorage.setItem('theme', 'dark');
-        toggleButton.textContent = '🌙';
+    document.addEventListener('DOMContentLoaded', () => {
+      const body = document.body;
+      const toggle = document.getElementById('theme-toggle');
+  
+      // Load theme
+      if (localStorage.getItem('theme') === 'light') {
+        body.classList.add('light-theme');
+        toggle.checked = true;
       }
+  
+      toggle.addEventListener('change', () => {
+        body.classList.add('theme-transition'); // Optional class if you want extra transitions
+  
+        if (toggle.checked) {
+          body.classList.add('light-theme');
+          localStorage.setItem('theme', 'light');
+        } else {
+          body.classList.remove('light-theme');
+          localStorage.setItem('theme', 'dark');
+        }
+  
+        // Remove transition class after animation completes
+        setTimeout(() => {
+          body.classList.remove('theme-transition');
+        }, 500);
+      });
+  
+      // Mobile nav toggle
+      const navToggle = document.getElementById('navToggle');
+      const navbar = document.getElementById('navbar');
+      if (navToggle && navbar) {
+        navToggle.addEventListener('click', () => {
+          navbar.classList.toggle('show');
+        });
+      }
+  
+      // Page load animation
+      body.classList.add('loaded');
     });
   </script>
-
+  
+  
 </body>
 </html>

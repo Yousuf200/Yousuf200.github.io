@@ -5,7 +5,11 @@
     </a>
   </div>
 
-  <nav class="navigation">
+  <!-- Hamburger Icon for Mobile -->
+  <button class="nav-toggle" id="navToggle">&#9776;</button>
+
+  <!-- Navigation Menu -->
+  <nav class="navigation" id="navbar">
     <a href="{{ '/' | relative_url }}">
       <img src="/assets/images/home-icon.png" alt="Home">Home
     </a>
@@ -23,8 +27,12 @@
     </a>
   </nav>
 
-  <button id="theme-toggle" aria-label="Toggle Theme"
-    style="margin-left:auto; background:none; border:none; cursor:pointer; font-size: 20px;">
-    🌙
-  </button>
+  <!-- Theme Toggle Switch -->
+  <label class="theme-switch" aria-label="Toggle Theme">
+    <input type="checkbox" id="theme-toggle">
+    <span class="slider">
+      <span class="icon sun">🌞</span>
+      <span class="icon moon">🌙</span>
+    </span>
+  </label>
 </header>
