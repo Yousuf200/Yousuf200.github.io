@@ -80,6 +80,11 @@ permalink: /newposts/
       <textarea id="content" name="content" placeholder="Write your post content here" rows="10" required></textarea>
     </div>
 
+    <div class="form-group">
+      <label for="code">Code (optional):</label>
+      <textarea id="code" name="code" placeholder="Paste any code to include in the post" rows="6"></textarea>
+    </div>
+
     <button type="submit" class="submit-btn">Submit Post</button>
   </form>
 </div>
@@ -88,7 +93,7 @@ permalink: /newposts/
 document.getElementById('newPostForm').addEventListener('submit', function(event) {
   event.preventDefault();
 
-  const token = localStorage.getItem('githubToken'); // Securely get token from browser storage
+  const token = localStorage.getItem('githubToken');
 
   if (!token) {
     alert("No GitHub token found. Please run this in your browser console first:\n\nlocalStorage.setItem('githubToken', 'YOUR_TOKEN_HERE')");
@@ -97,23 +102,35 @@ document.getElementById('newPostForm').addEventListener('submit', function(event
 
   const title = document.getElementById('title').value.trim();
   const content = document.getElementById('content').value.trim();
+  const code = document.getElementById('code').value.trim();
 
   if (!title || !content) {
-    alert("Both title and content are required.");
+    alert("Title and content are required.");
     return;
   }
 
   const date = new Date();
-  const dateStr = date.toISOString().split("T")[0]; // YYYY-MM-DD
+  const dateStr = date.toISOString().split("T")[0];
   const postname = title.toLowerCase().replace(/\s+/g, '').replace(/[^\w\-]+/g, '');
   const filename = `${dateStr}-${postname}.md`;
 
-  const postContent = `---
+  let postContent = `---
 layout: post
 title: "${title}"
 date: ${date.toISOString()}
 ---
-${content}`;
+
+${content}
+`;
+
+  if (code) {
+    postContent += `
+
+\`\`\`
+${code}
+\`\`\`
+`;
+  }
 
   const payload = {
     message: `Create new post: ${title}`,
