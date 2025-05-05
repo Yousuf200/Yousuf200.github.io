@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create a New Post | Block Journey</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body class="page-body">
+
+  <div class="page-wrapper">
+    <header class="topbar">
+  <div class="logo">
+    <a href="/">
+      <img src="/assets/images/logo.png" alt="Logo">
+    </a>
+  </div>
+
+  <!-- Hamburger Icon for Mobile -->
+  <button class="nav-toggle" id="navToggle">&#9776;</button>
+
+  <!-- Navigation Menu -->
+  <nav class="navigation" id="navbar">
+    <a href="/">
+      <img src="/assets/images/home-icon.png" alt="Home">Home
+    </a>
+    <a href="/blog/">
+      <img src="/assets/images/blog-icon.png" alt="Blog">Blog
+    </a>
+    <a href="/contact/">
+      <img src="/assets/images/contact-icon.png" alt="Contact">Contact
+    </a>
+    <a href="/supersword/">
+      <img src="/assets/images/sword-icon.png" alt="SuperSword">Eternity Sword
+    </a>
+    <a href="/about/">
+      <img src="/assets/images/about-icon.png" alt="About">About
+    </a>
+  </nav>
+
+  <!-- Theme Toggle Switch -->
+  <label class="theme-switch" aria-label="Toggle Theme">
+    <input type="checkbox" id="theme-toggle">
+    <span class="slider">
+      <span class="icon sun">🌞</span>
+      <span class="icon moon">🌙</span>
+    </span>
+  </label>
+</header>
+
+
+    <main>
+      <style>
+  /* Style for the new post form container */
+  .new-post-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color:rgb(16, 1, 1);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Style for the form header */
+  .new-post-form h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  /* Style for form fields (title and content) */
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: #007BFF;
+    outline: none;
+  }
+
+  /* Style for the submit button */
+  .submit-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    background-color:rgb(11, 34, 59);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .submit-btn:hover {
+    background-color:rgb(10, 34, 61);
+  }
+
+  /* Add responsiveness for smaller screens */
+  @media (max-width: 600px) {
+    .new-post-form {
+      padding: 15px;
+    }
+
+    .submit-btn {
+      font-size: 1rem;
+      padding: 10px;
+    }
+  }
+</style>
+
+<div class="new-post-form">
+  <h2>Create a New Post</h2>
+  <form id="newPostForm">
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" placeholder="Enter the post title" required="" />
+    </div>
+
+    <div class="form-group">
+      <label for="content">Content:</label>
+      <textarea id="content" name="content" placeholder="Write your post content here" rows="10" required=""></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Post</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('newPostForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('content').value;
+    
+    const formattedTitle = title.toLowerCase().replace(/\s+/g, '-'); // Convert spaces to dashes and to lowercase
+    const today = new Date();
+    const dateString = today.toISOString().split('T')[0]; // Get YYYY-MM-DD format
+    const filename = `${dateString}-${formattedTitle}.md`;
+
+    const postContent = `---
+layout: post
+title: "${title}"
+date: ${today.toISOString()}
+---
+
+${content}`;
+
+    const blob = new Blob([postContent], { type: 'text/markdown' });
+    const formData = new FormData();
+    formData.append('file', blob, filename);
+
+    fetch('https://api.github.com/repos/Yousuf200/Yousuf200.github.io/contents/_posts/' + filename, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer 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',
+      },
+      body: JSON.stringify({
+        message: 'Create new post: ' + title,
+        content: btoa(postContent), // Base64 encode the content
+      }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.content) {
+        alert('Post submitted successfully!');
+      } else {
+        alert('Error: ' + data.message);
+      }
+    })
+    .catch(error => {
+      alert('Error: ' + error.message);
+    });
+  });
+</script>
+
+
+    </main>
+
+    <footer>
+  <p>&copy; 2025 Syed Naqiuddin Ammar. All rights reserved.</p>
+</footer>
+
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const body = document.body;
+      const toggle = document.getElementById('theme-toggle');
+
+      // Set initial theme
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        body.classList.add('light-theme');
+        body.classList.remove('dark-theme');
+        if (toggle) toggle.checked = true;
+      } else {
+        body.classList.add('dark-theme');
+        body.classList.remove('light-theme');
+        if (toggle) toggle.checked = false;
+      }
+
+      // Handle theme toggle
+      if (toggle) {
+        toggle.addEventListener('change', () => {
+          if (toggle.checked) {
+            body.classList.add('light-theme');
+            body.classList.remove('dark-theme');
+            localStorage.setItem('theme', 'light');
+          } else {
+            body.classList.add('dark-theme');
+            body.classList.remove('light-theme');
+            localStorage.setItem('theme', 'dark');
+          }
+        });
+      }
+
+      // Handle mobile navigation toggle
+      const navToggle = document.getElementById('navToggle');
+      const navbar = document.getElementById('navbar');
+      if (navToggle && navbar) {
+        navToggle.addEventListener('click', () => {
+          navbar.classList.toggle('show');
+        });
+      }
+
+      // Page load animation
+      body.classList.add('loaded');
+    });
+  </script>
+</body>
+</html>

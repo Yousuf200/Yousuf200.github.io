@@ -17,6 +17,9 @@
 <loc>http://0.0.0.0:4000/</loc>
 </url>
 <url>
+<loc>http://0.0.0.0:4000/newpost.html</loc>
+</url>
+<url>
 <loc>http://0.0.0.0:4000/supersword/</loc>
 </url>
 </urlset>

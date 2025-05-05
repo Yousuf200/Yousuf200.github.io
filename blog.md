@@ -9,11 +9,22 @@ permalink: /blog/
 
 <h2>Recent Posts</h2>
 
-<ul>
+<!-- <ul>
   {% for post in site.posts %}
     <li>
       <a href="{{ post.url }}">{{ post.title }}</a>
       <p>{{ post.excerpt }}</p>
     </li>
   {% endfor %}
+</ul> -->
+
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+      <p>{{ post.excerpt | split: '\n' | first }}</p>  <!-- This shows only the first line -->
+    </li>
+  {% endfor %}
 </ul>
+
+

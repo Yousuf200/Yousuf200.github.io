@@ -4,7 +4,7 @@ title: "Welcome to My Block😉"
 subtitle: "A space for projects, insights, and ideas"
 ---
 
-## 👋 Hello, I'm Naqi
+## 👋 Hello, I'm Ammar
 
 Welcome to my personal website! This is where I share my work, thoughts, and creations.
 
