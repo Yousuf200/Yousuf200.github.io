@@ -141,14 +141,24 @@ date: ${date.toISOString()}
 ${content}
 `;
 
-  if (code) {
+    if (code) {
+  const escapedCode = code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
   postContent += `
 
-<div>
-<code id="command-block">${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code>
+<div style="position: relative; background: #1e1e1e; padding: 1em; border-radius: 8px; font-family: monospace; white-space: pre-wrap; word-wrap: break-word; color: #f8f8f2; border: 1px solid #444;">
+  <button onclick="copyCode()" style="position: absolute; top: 10px; right: 10px; padding: 4px 8px; font-size: 0.8em; background: #444; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Copy</button>
+  <code id="command-block">${escapedCode}</code>
 </div>
+
+<script>
+function copyCode() {
+  const code = document.getElementById("command-block").innerText;
+  navigator.clipboard.writeText(code).then(() => alert("Copied!"));
+}
+</script>
 `;
 }
+
 
   const payload = {
     message: `Create new post: ${title}`,
