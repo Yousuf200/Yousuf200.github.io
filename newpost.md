@@ -69,6 +69,19 @@ permalink: /newposts/
   .submit-btn:hover {
     background-color: #0056b3;
   }
+
+  #command-block {
+  display: block;
+  white-space: pre-wrap;
+  background-color: #1e1e1e;
+  color: #f8f8f2;
+  padding: 1em;
+  margin-top: 1em;
+  border-radius: 5px;
+  font-family: monospace;
+  overflow-x: auto;
+}
+
 </style>
 
 
@@ -129,13 +142,13 @@ ${content}
 `;
 
   if (code) {
-    postContent += `
+  postContent += `
 
-\`\`\`
-${code}
-\`\`\`
+<div>
+<code id="command-block">${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code>
+</div>
 `;
-  }
+}
 
   const payload = {
     message: `Create new post: ${title}`,
