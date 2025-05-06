@@ -7,17 +7,19 @@ permalink: /newposts/
 <style>
   .new-post-form {
     max-width: 800px;
+    color: red; /* ✅ Corrected line */
     margin: 0 auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: transparent;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
-  .new-post-form h2 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 20px;
+  .new-post-form h2,
+  .form-group label,
+  .form-group input,
+  .form-group textarea {
+    color: red; /* Applies red text to headings, labels, and form fields */
   }
 
   .form-group {
@@ -37,6 +39,8 @@ permalink: /newposts/
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
+    background-color: #111;
+    color: red; /* Ensure input text is red */
   }
 
   .form-group textarea {
@@ -54,7 +58,7 @@ permalink: /newposts/
     width: 100%;
     padding: 12px;
     font-size: 1.1rem;
-    background-color: #007BFF;
+    background-color: rgb(5, 29, 54);
     color: white;
     border: none;
     border-radius: 4px;
@@ -66,6 +70,7 @@ permalink: /newposts/
     background-color: #0056b3;
   }
 </style>
+
 
 <div class="new-post-form">
   <h2>Create a New Post</h2>
@@ -85,7 +90,7 @@ permalink: /newposts/
       <textarea id="code" name="code" placeholder="Paste any code to include in the post" rows="6"></textarea>
     </div>
 
-    <button type="submit" class="submit-btn">Submit Post</button>
+    <button type="submit" class="submit-btn">Post</button>
   </form>
 </div>
 

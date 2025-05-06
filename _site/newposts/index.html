@@ -52,24 +52,23 @@
 
     <main>
       <style>
-  /* Style for the new post form container */
   .new-post-form {
     max-width: 800px;
+    color: red; /* ✅ Corrected line */
     margin: 0 auto;
     padding: 20px;
-    background-color:rgb(16, 1, 1);
+    background-color: transparent;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
-  /* Style for the form header */
-  .new-post-form h2 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 20px;
+  .new-post-form h2,
+  .form-group label,
+  .form-group input,
+  .form-group textarea {
+    color: red; /* Applies red text to headings, labels, and form fields */
   }
 
-  /* Style for form fields (title and content) */
   .form-group {
     margin-bottom: 15px;
   }
@@ -87,6 +86,12 @@
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
+    background-color: #111;
+    color: red; /* Ensure input text is red */
+  }
+
+  .form-group textarea {
+    resize: vertical;
   }
 
   .form-group input:focus,
@@ -95,13 +100,12 @@
     outline: none;
   }
 
-  /* Style for the submit button */
   .submit-btn {
     display: block;
     width: 100%;
     padding: 12px;
     font-size: 1.1rem;
-    background-color:rgb(11, 34, 59);
+    background-color: rgb(5, 29, 54);
     color: white;
     border: none;
     border-radius: 4px;
@@ -110,19 +114,7 @@
   }
 
   .submit-btn:hover {
-    background-color:rgb(10, 34, 61);
-  }
-
-  /* Add responsiveness for smaller screens */
-  @media (max-width: 600px) {
-    .new-post-form {
-      padding: 15px;
-    }
-
-    .submit-btn {
-      font-size: 1rem;
-      padding: 10px;
-    }
+    background-color: #0056b3;
   }
 </style>
 
@@ -139,56 +131,87 @@
       <textarea id="content" name="content" placeholder="Write your post content here" rows="10" required=""></textarea>
     </div>
 
+    <div class="form-group">
+      <label for="code">Code (optional):</label>
+      <textarea id="code" name="code" placeholder="Paste any code to include in the post" rows="6"></textarea>
+    </div>
+
     <button type="submit" class="submit-btn">Post</button>
   </form>
 </div>
 
 <script>
-  document.getElementById('newPostForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+document.getElementById('newPostForm').addEventListener('submit', function(event) {
+  event.preventDefault();
 
-    const title = document.getElementById('title').value;
-    const content = document.getElementById('content').value;
-    
-    const formattedTitle = title.toLowerCase().replace(/\s+/g, '-'); // Convert spaces to dashes and to lowercase
-    const today = new Date();
-    const dateString = today.toISOString().split('T')[0]; // Get YYYY-MM-DD format
-    const filename = `${dateString}-${formattedTitle}.md`;
+  const token = localStorage.getItem('githubToken');
 
-    const postContent = `---
+  if (!token) {
+    alert("No GitHub token found. Please run this in your browser console first:\n\nlocalStorage.setItem('githubToken', 'YOUR_TOKEN_HERE')");
+    return;
+  }
+
+  const title = document.getElementById('title').value.trim();
+  const content = document.getElementById('content').value.trim();
+  const code = document.getElementById('code').value.trim();
+
+  if (!title || !content) {
+    alert("Title and content are required.");
+    return;
+  }
+
+  const date = new Date();
+  const dateStr = date.toISOString().split("T")[0];
+  const postname = title.toLowerCase().replace(/\s+/g, '').replace(/[^\w\-]+/g, '');
+  const filename = `${dateStr}-${postname}.md`;
+
+  let postContent = `---
 layout: post
 title: "${title}"
-date: ${today.toISOString()}
+date: ${date.toISOString()}
 ---
 
-${content}`;
+${content}
+`;
 
-    const blob = new Blob([postContent], { type: 'text/markdown' });
-    const formData = new FormData();
-    formData.append('file', blob, filename);
+  if (code) {
+    postContent += `
 
-    fetch('https://api.github.com/repos/Yousuf200/Yousuf200.github.io/contents/_posts/' + filename, {
-      method: 'PUT',
-      headers: {
-        'Authorization': 'Bearer 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',
-      },
-      body: JSON.stringify({
-        message: 'Create new post: ' + title,
-        content: btoa(postContent), // Base64 encode the content
-      }),
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.content) {
-        alert('Post submitted successfully!');
-      } else {
-        alert('Error: ' + data.message);
-      }
-    })
-    .catch(error => {
-      alert('Error: ' + error.message);
-    });
+\`\`\`
+${code}
+\`\`\`
+`;
+  }
+
+  const payload = {
+    message: `Create new post: ${title}`,
+    content: btoa(postContent),
+    branch: "main"
+  };
+
+  fetch(`https://api.github.com/repos/Yousuf200/Yousuf200.github.io/contents/_posts/${filename}`, {
+    method: "PUT",
+    headers: {
+      "Authorization": "token " + token,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.content) {
+      alert("✅ Post created successfully!");
+      window.location.href = "/";
+    } else {
+      console.error(data);
+      alert("❌ Error creating post:\n" + (data.message || "Unknown error"));
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert("❌ Request failed: " + err.message);
   });
+});
 </script>
 
 
