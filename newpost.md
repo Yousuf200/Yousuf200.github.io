@@ -7,7 +7,7 @@ permalink: /newposts/
 <style>
   .new-post-form {
     max-width: 800px;
-    color: red; /* ✅ Corrected line */
+    color: red;
     margin: 0 auto;
     padding: 20px;
     background-color: transparent;
@@ -16,10 +16,8 @@ permalink: /newposts/
   }
 
   .new-post-form h2,
-  .form-group label,
-  .form-group input,
-  .form-group textarea {
-    color: red; /* Applies red text to headings, labels, and form fields */
+  .form-group label {
+    color: red;
   }
 
   .form-group {
@@ -40,7 +38,7 @@ permalink: /newposts/
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #111;
-    color: red; /* Ensure input text is red */
+    color: red;
   }
 
   .form-group textarea {
@@ -69,21 +67,7 @@ permalink: /newposts/
   .submit-btn:hover {
     background-color: #0056b3;
   }
-
-  #command-block {
-  display: block;
-  white-space: pre-wrap;
-  background-color: #1e1e1e;
-  color: #f8f8f2;
-  padding: 1em;
-  margin-top: 1em;
-  border-radius: 5px;
-  font-family: monospace;
-  overflow-x: auto;
-}
-
 </style>
-
 
 <div class="new-post-form">
   <h2>Create a New Post</h2>
@@ -132,33 +116,12 @@ document.getElementById('newPostForm').addEventListener('submit', function(event
   const postname = title.toLowerCase().replace(/\s+/g, '').replace(/[^\w\-]+/g, '');
   const filename = `${dateStr}-${postname}.md`;
 
-  let postContent = `---
-layout: post
-title: "${title}"
-date: ${date.toISOString()}
----
+  let postContent = `---\nlayout: post\ntitle: "${title}"\ndate: ${date.toISOString()}\n---\n\n${content}\n`;
 
-${content}
-`;
-
-    if (code) {
-  const escapedCode = code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  postContent += `
-
-<div style="position: relative; background: #1e1e1e; padding: 1em; border-radius: 8px; font-family: monospace; white-space: pre-wrap; word-wrap: break-word; color: #f8f8f2; border: 1px solid #444;">
-  <button onclick="copyCode()" style="position: absolute; top: 10px; right: 10px; padding: 4px 8px; font-size: 0.8em; background: #444; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Copy</button>
-  <code id="command-block">${escapedCode}</code>
-</div>
-
-<script>
-function copyCode() {
-  const code = document.getElementById("command-block").innerText;
-  navigator.clipboard.writeText(code).then(() => alert("Copied!"));
-}
-</script>
-`;
-}
-
+  if (code) {
+    const escapedCode = code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    postContent += `\n<div style="position: relative; background: #1e1e1e; padding: 1em; border-radius: 8px; font-family: monospace; white-space: pre-wrap; word-wrap: break-word; color: #f8f8f2; border: 1px solid #444;">\n  <button class='copy-btn' style="position: absolute; top: 10px; right: 10px; padding: 4px 8px; font-size: 0.8em; background: #444; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Copy</button>\n  <code class="code-block">${escapedCode}</code>\n</div>\n`;
+  }
 
   const payload = {
     message: `Create new post: ${title}`,
@@ -189,4 +152,13 @@ function copyCode() {
     alert("❌ Request failed: " + err.message);
   });
 });
+</script>
+
+<script>
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('copy-btn')) {
+      const code = e.target.parentElement.querySelector('.code-block').innerText;
+      navigator.clipboard.writeText(code).then(() => alert("Copied!"));
+    }
+  });
 </script>
