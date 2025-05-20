@@ -1,3 +1,14 @@
+<script>
+  function copyCodeBlock(button) {
+    const code = button.nextElementSibling.innerText;
+    navigator.clipboard.writeText(code)
+      .then(() => alert("✅ Copied!"))
+      .catch(err => {
+        console.error("❌ Failed to copy:", err);
+        alert("Failed to copy");
+      });
+  }
+</script>
 <footer>
   <p>&copy; {{ site.time | date: '%Y' }} {{ site.author }}. All rights reserved.</p>
 </footer>
