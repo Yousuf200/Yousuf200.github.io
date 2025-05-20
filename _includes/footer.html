@@ -9,7 +9,7 @@
       });
   }
 </script>
-<footer>
-  <p>&copy; {{ site.time | date: '%Y' }} {{ site.author }}. All rights reserved.</p>
-</footer>
 
+<footer>
+  <p>&copy; {{ site.time | date: '%Y' }} {{ site.author | escape }}. All rights reserved.</p>
+</footer>
