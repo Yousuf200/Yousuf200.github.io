@@ -134,13 +134,8 @@ document.getElementById('newPostForm').addEventListener('submit', function(event
   <button onclick="copyCodeBlock(this)" style="position: absolute; top: 10px; right: 10px; padding: 4px 8px; font-size: 0.8em; background: #444; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Copy</button>
   <code>${escapedCode}</code>
 </div>
+`;
 
-&lt;script&gt;
-function copyCodeBlock(button) {
-  const code = button.nextElementSibling.innerText;
-  navigator.clipboard.writeText(code).then(() => alert("Copied!"));
-}
-&lt;/script&gt;`;
   }
 
   const payload = {
