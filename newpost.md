@@ -76,53 +76,6 @@ permalink: /newposts/
   .submit-btn:hover {
     background-color: #0056b3;
   }
-
-  .code-container {
-    position: relative;
-    background: #1e1e1e;
-    padding: 1em;
-    border-radius: 8px;
-    font-family: monospace;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    color: #f8f8f2;
-    border: 1px solid #444;
-    margin-top: 1em;
-  }
-
-  .copy-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 4px 8px;
-    font-size: 0.8em;
-    background: #444;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  .copy-btn .tooltip {
-    visibility: hidden;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 4px;
-    padding: 4px 8px;
-    position: absolute;
-    top: -30px;
-    right: 0;
-    z-index: 1;
-    font-size: 0.75em;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .copy-btn.copied .tooltip {
-    visibility: visible;
-    opacity: 1;
-  }
 </style>
 
 <div class="new-post-form">
@@ -174,22 +127,33 @@ document.getElementById('newPostForm').addEventListener('submit', function(event
   let postContent = `---\nlayout: post\ntitle: "${title}"\ndate: ${date.toISOString()}\n---\n\n${content}`;
 
   if (code) {
-    const escapedCode = code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const escapedCode = code
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+
     postContent += `
 
-<div class="code-container">
-  <button class="copy-btn">Copy <span class="tooltip">Copied!</span></button>
-  <code class="code-block">${escapedCode}</code>
-</div>`;
+<div style="position: relative; background: #1e1e1e; padding: 1em; border-radius: 8px; font-family: monospace; white-space: pre-wrap; word-wrap: break-word; color: #f8f8f2; border: 1px solid #444;">
+  <button onclick="copyCodeBlock(this)" style="position: absolute; top: 10px; right: 10px; padding: 4px 8px; font-size: 0.8em; background: #444; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Copy</button>
+  <code>${escapedCode}</code>
+</div>
+
+<script>
+function copyCodeBlock(button) {
+  const code = button.nextElementSibling.innerText;
+  navigator.clipboard.writeText(code).then(() => alert("Copied!"));
+}
+</script>`;
   }
 
   const payload = {
-    message: `Create new post: ${title}`,
+    message: \`Create new post: \${title}\`,
     content: btoa(unescape(encodeURIComponent(postContent))),
     branch: "main"
   };
 
-  fetch(`https://api.github.com/repos/Yousuf200/Yousuf200.github.io/contents/_posts/${filename}`, {
+  fetch(\`https://api.github.com/repos/Yousuf200/Yousuf200.github.io/contents/_posts/\${filename}\`, {
     method: "PUT",
     headers: {
       "Authorization": "token " + token,
@@ -204,28 +168,12 @@ document.getElementById('newPostForm').addEventListener('submit', function(event
       window.location.href = "/";
     } else {
       console.error(data);
-      alert("❌ Error creating post:\n" + (data.message || "Unknown error"));
+      alert("❌ Error creating post:\\n" + (data.message || "Unknown error"));
     }
   })
   .catch(err => {
     console.error(err);
     alert("❌ Request failed: " + err.message);
-  });
-});
-
-// Tooltip-based copy handling
-document.addEventListener('DOMContentLoaded', function () {
-  document.body.addEventListener('click', function (e) {
-    if (e.target.closest('.copy-btn')) {
-      const btn = e.target.closest('.copy-btn');
-      const codeElem = btn.closest('.code-container').querySelector('.code-block');
-      if (!codeElem) return;
-      const code = codeElem.textContent;
-      navigator.clipboard.writeText(code).then(() => {
-        btn.classList.add('copied');
-        setTimeout(() => btn.classList.remove('copied'), 1500);
-      });
-    }
   });
 });
 </script>
