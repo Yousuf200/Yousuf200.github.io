@@ -121,7 +121,7 @@ document.getElementById('newPostForm').addEventListener('submit', function(event
 
   const date = new Date();
   const dateStr = date.toISOString().split("T")[0];
-  const postname = title.toLowerCase().replace(/\s+/g, '').replace(/[^\w\-]+/g, '');
+  const postname = title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
   const filename = `${dateStr}-${postname}.md`;
 
   let postContent = `---\nlayout: post\ntitle: "${title}"\ndate: ${date.toISOString()}\n---\n\n${content}`;
@@ -132,8 +132,8 @@ document.getElementById('newPostForm').addEventListener('submit', function(event
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 
+    // Embed code block with copy functionality
     postContent += `
-
 <div style="position: relative; background: #1e1e1e; padding: 1em; border-radius: 8px; font-family: monospace; white-space: pre-wrap; word-wrap: break-word; color: #f8f8f2; border: 1px solid #444;">
   <button onclick="copyCodeBlock(this)" style="position: absolute; top: 10px; right: 10px; padding: 4px 8px; font-size: 0.8em; background: #444; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Copy</button>
   <code>${escapedCode}</code>
@@ -148,12 +148,12 @@ function copyCodeBlock(button) {
   }
 
   const payload = {
-    message: \`Create new post: \${title}\`,
+    message: `Create new post: ${title}`,
     content: btoa(unescape(encodeURIComponent(postContent))),
     branch: "main"
   };
 
-  fetch(\`https://api.github.com/repos/Yousuf200/Yousuf200.github.io/contents/_posts/\${filename}\`, {
+  fetch(`https://api.github.com/repos/Yousuf200/Yousuf200.github.io/contents/_posts/${filename}`, {
     method: "PUT",
     headers: {
       "Authorization": "token " + token,
@@ -168,7 +168,7 @@ function copyCodeBlock(button) {
       window.location.href = "/";
     } else {
       console.error(data);
-      alert("❌ Error creating post:\\n" + (data.message || "Unknown error"));
+      alert("❌ Error creating post:\n" + (data.message || "Unknown error"));
     }
   })
   .catch(err => {
