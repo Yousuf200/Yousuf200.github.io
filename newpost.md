@@ -121,30 +121,26 @@ document.getElementById('newPostForm').addEventListener('submit', function(event
 
   const date = new Date();
   const dateStr = date.toISOString().split("T")[0];
-  const postname = title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
+  const postname = title.toLowerCase().replace(/\s+/g, '').replace(/[^\w\-]+/g, '');
   const filename = `${dateStr}-${postname}.md`;
 
   let postContent = `---\nlayout: post\ntitle: "${title}"\ndate: ${date.toISOString()}\n---\n\n${content}`;
 
   if (code) {
-    const escapedCode = code
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-
-    // Embed code block with copy functionality
+    const escapedCode = code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     postContent += `
+
 <div style="position: relative; background: #1e1e1e; padding: 1em; border-radius: 8px; font-family: monospace; white-space: pre-wrap; word-wrap: break-word; color: #f8f8f2; border: 1px solid #444;">
   <button onclick="copyCodeBlock(this)" style="position: absolute; top: 10px; right: 10px; padding: 4px 8px; font-size: 0.8em; background: #444; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Copy</button>
   <code>${escapedCode}</code>
 </div>
 
-<script>
+&lt;script&gt;
 function copyCodeBlock(button) {
   const code = button.nextElementSibling.innerText;
   navigator.clipboard.writeText(code).then(() => alert("Copied!"));
 }
-</script>`;
+&lt;/script&gt;`;
   }
 
   const payload = {
